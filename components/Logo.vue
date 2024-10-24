@@ -30,7 +30,7 @@
         align-items: center;
         justify-content: center;
         // border: 1px solid #404040;
-        // background-color: #4c3c3c;
+        // background-color: #e9d5ff;
         height: 40px;
         width: 40px;
         border-radius: 12px;
