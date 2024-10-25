@@ -45,7 +45,7 @@
 						v-for="(product, i) in dataProducts"
 						:key="i"
 						class="relative aspect-square w-1/6 max-w-[475px] flex-none">
-						<nuxt-link to="/" class="w-[400px] h-[200px] relative">
+						<nuxt-link :to="`/product/${product.id}`" class="w-[400px] h-[200px] relative">
 							<div
 								class="group flex h-full w-full items-center justify-center overflow-hidden rounded-lg border bg-white hover:border-blue-600 dark:bg-black relative border-neutral-200 dark:border-neutral-800">
 								<img
@@ -81,12 +81,11 @@
 
 <script setup lang="ts">
 interface ProductInterface {
-	_id: {
-		$oid: string;
-	};
+	id: number,
 	price: string;
 	name: string;
 	type: string;
+	slug: string;
 	variations?: {
 		attributes: string[];
 		prices: string[];

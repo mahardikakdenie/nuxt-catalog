@@ -1,5 +1,5 @@
 <template>
-    <a class="logo" href="/">
+    <nuxt-link class="logo" to="/">
         <div class="logo__wrapper bg-purple-200 border border-purple-300">
             <svg xmlns="http://www.w3.org/2000/svg" aria-label="undefined logo" viewBox="0 0 32 28"
                 class="h-4 w-4 fill-black">
@@ -10,7 +10,7 @@
         <div class="ml-2 flex-none text-sm font-bold uppercase md:hidden lg:block text-purple-600">
             Mahardika Store
         </div>
-    </a>
+    </nuxt-link>
 </template>
 
 <script setup lang="ts">
