@@ -1,6 +1,6 @@
 <template>
     <Transition name="fade">
-        <div class="fixed bottom-0 right-0 top-0 flex-col z-[9999] flex h-full p-4 bg-white w-[390px]">
+        <div class="fixed bottom-0 right-0 top-0 flex-col z-[9999] flex h-full p-4 bg-white w-[390px] shadow-xl">
             <div>
                 <div class="flex justify-between p-4">
                     <div class="flex items-center">
