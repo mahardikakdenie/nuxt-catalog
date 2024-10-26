@@ -1,13 +1,14 @@
 <template>
 	<div class="px-4 sm:px-20 py-10 bg-gray-100 h-auto">
-		<div v-if="dataProducts" class="px-4 sm:px-20 bg-white rounded-lg relative">
+		<div v-if="!isProductNotFound" class="px-4 sm:px-20 bg-white rounded-lg relative">
 			<div class="grid grid-cols-1 sm:grid-cols-3 gap-3 py-10">
 				<!-- Image -->
 				<div class="relative w-full min-w-[300px]">
 					<div class="p-4 relative sm:sticky sm:top-20 top-0">
 						<div class="flex justify-center items-center">
 							<img
-								:src="dataProducts.pictures[indexActiveImage]"
+								v-if="dataProducts?.pictures?.[indexActiveImage]"
+								:src="dataProducts?.pictures?.[indexActiveImage]"
 								class="border rounded-md image-loader max-w-full h-auto"
 								alt="" />
 						</div>
@@ -138,7 +139,12 @@
 				</div>
 			</div>
 		</div>
-		<div v-else class="image-loader"></div>
+		<div v-else>
+			<div class="flex justify-center h-full">
+				<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTr56lS4j3S-_9B8ntWs4c6N7cLWq7nnG-Hag&s" alt="" srcset="">
+			</div>
+		</div>
+		<!-- <div v-else class="image-loader"></div> -->
 	</div>
 </template>
 
@@ -241,10 +247,14 @@ const slide = (increment: number) => {
 	}
 };
 
+const title = computed(() => dataProducts.value?.name ?? 'Product Tidak ada');
+
 useSeoMeta({
-	title: `${dataProducts.value.name} - Mahardika store`,
+	title: `${title.value} - Mahardika store`,
 	description: dataProducts.value.description,
 });
+
+const isProductNotFound = computed(() => JSON.stringify(dataProducts.value) === '{}');
 
 const calculatePrice = computed(
 	() => quantity.value * (dataProducts.value.price || 0)
