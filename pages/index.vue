@@ -63,7 +63,7 @@
 <script setup lang="ts">
 
 useSeoMeta({
-	title: "Mahardika Stote",
+	title: "Mahardika Store",
 })
 
 interface ProductInterface {
