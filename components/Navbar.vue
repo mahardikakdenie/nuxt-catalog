@@ -32,21 +32,25 @@
 					</div>
 				</div>
 				<div class="w-full justify-end flex">
-					<button class="border px-4 py-2 rounded-md border-purple-500 bg-purple-100 hover:bg-purple-200 flex">
+					<button class="border px-4 py-2 rounded-md border-purple-500 bg-purple-100 hover:bg-purple-200 flex" @click="isCartVisible = true">
 						<img src="@/assets/image/cart.svg" width="15" alt="" srcset="">
 					</button>
 				</div>
 			</div>
 		</nav>
+		<CartModal v-if="isCartVisible" @close="isCartVisible = false" />
 	</header>
 </template>
 
 <script lang="ts" setup>
-import searchIcon from '@/assets/image/search.svg'
+import searchIcon from '@/assets/image/search.svg';
+import CartModal from './CartModal.vue';
 // import { ref } from 'vue';
 
 const route = useRoute();
 const router = useRouter();
+
+const isCartVisible = ref<boolean>(false);
 
 interface Navigator {
 	label: string;

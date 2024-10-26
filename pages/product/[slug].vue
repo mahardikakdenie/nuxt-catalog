@@ -1,6 +1,6 @@
 <template>
 	<div class="px-20 py-10 bg-gray-100 relative">
-		<div class="p-7 bg-white rounded-lg">
+		<div v-if="dataProducts" class="p-7 bg-white rounded-lg">
 			<div class="grid grid-cols-3">
 				<div class="p-5 gap-3">
 					<!-- <div class="col-span-1 ml-2">
@@ -8,13 +8,14 @@
 					<div class="">
 						<div class="flex justify-center items-center">
 							<img
-								:src="dataProducts.pictures[0]"
-								class="border rounded-md"
+								:src="dataProducts.pictures[indexActiveImage]"
+								class="border rounded-md image-loader"
 								alt="" />
 						</div>
-						<div class="relative w-full">
+						<div class="relative w-full" @mouseenter="onMouseChev" @mouseleave="onMouseLeave">
 							<!-- Tombol geser ke kiri -->
 							<button
+								v-if="isButtonVisible"
 								class="absolute left-0 z-10 top-6 rounded-full bg-gray-200 p-2 opacity-75" @click="slide(-1)">
 								◀
 							</button>
@@ -36,11 +37,13 @@
 										:class="{
 											'border-purple-500 border-2': i === indexActiveImage,
 										}"
+										@click="indexActiveImage = i"
 										alt="" />
 								</li>
 							</ul>
 							<!-- Tombol geser ke kanan -->
 							<button
+								v-if="isButtonVisible"
 								class="absolute right-0 top-6 z-10 bg-gray-200 p-2 rounded-full opacity-75"
 								@click="slide(1)"
 							>
@@ -56,16 +59,16 @@
 						</h3>
 						<div class="flex">
 							<img
-								v-for="i in 4"
+								v-for="i in dataProducts.rating"
 								src="@/assets/image/star.svg"
 								alt="" />
-							<small>(4)</small>
+							<small>({{ dataProducts.rating }})</small>
 						</div>
 					</div>
 
 					<hr class="mt-4" />
 
-					<div class="py-4">
+					<div v-if="dataProducts.type === 'variant'" class="py-4">
 						<div>
 							<span class="text-sm"> Pilih Variant </span>
 						</div>
@@ -141,7 +144,19 @@
 									<small>Harga :</small>
 								</div>
 								<div>
-									<small> Rp90000 </small>
+									<small> Rp{{ calculatePrice }} </small>
+								</div>
+							</div>
+							<div class="flex justify-between mt-2">
+								<div>
+									<small>
+										Stock
+									</small>
+								</div>
+								<div>
+									<small>
+										{{ dataProducts.stock?.quantity }}
+									</small>
 								</div>
 							</div>
 							<hr class="mt-7">
@@ -182,15 +197,17 @@
 				</div>
 			</div>
 		</div>
+		<div v-else class="image-loader"></div>
 	</div>
 </template>
 
 <script setup lang="ts">
-const quantity = ref<number>(0);
+const quantity = ref<number>(1);
 const route = useRoute();
 
 interface ProductInterface {
 	id?: number;
+	rating?: number;
 	price?: string;
 	name?: string;
 	type?: string;
@@ -202,11 +219,15 @@ interface ProductInterface {
 			enabled: boolean;
 		};
 	};
+	stock?: {
+		enabled: boolean;
+		quantity: boolean;
+	}
 	pictures?: string[];
 }
 const {
 	data: products,
-	pending,
+	status,
 	error,
 } = await useFetch(
 	`https://my-json-server.typicode.com/mahardikakdenie/db-catalog-json/products/${route.params.slug}`
@@ -233,35 +254,56 @@ const pictureListItem = ref<HTMLElement | any>(null);
 
 // Calculate max scroll position when component is mounted
 onMounted(() => {
-	const containerWidth = 300; // Example container width, adjust as needed
-	maxPosition.value = -(
-		dataProducts.value.pictures.length * itemWidth -
-		containerWidth
-	);
+  if (process.client) {
+    const containerWidth = 300; // Adjust based on actual container width
+    maxPosition.value = -(
+      dataProducts.value.pictures.length * itemWidth -
+      containerWidth
+    );
 
-	if (pictureListContainer.value) {
-		// Access the element properties, e.g., scrollWidth
-		console.log(pictureListContainer.value.scrollWidth);
+    if (pictureListContainer.value) {
+      // Access the element properties, e.g., scrollWidth
+      console.log(pictureListContainer.value.scrollWidth);
+    }
   }
 });
 
 const indexActiveImage = ref<number>(0);
-const slide = (increment: number) => {
-	if (increment === 1 && (dataProducts.value.pictures?.length - 1) > indexActiveImage.value) {
-		indexActiveImage.value++;
-	} else if (increment === -1 && indexActiveImage.value > 0) {
-		indexActiveImage.value--;
-	}
-
-	const elementContainer = pictureListContainer.value;
-	if (pictureListItem.value) {
-		const elementImage = pictureListItem.value[0]; // Now you can access `[0]` without error
-		elementContainer?.scrollBy({
-		left: (2 + elementImage?.offsetWidth) * increment,
-			behavior: 'smooth',
-		});
-	}
+const isButtonVisible = ref<boolean>(false);
+const onMouseChev = () => {
+	isButtonVisible.value = true;
 };
+
+const onMouseLeave = () => {
+	isButtonVisible.value = false;
+
+};
+const slide = (increment: number) => {
+  if (
+    increment === 1 &&
+    (dataProducts.value.pictures?.length - 1) > indexActiveImage.value
+  ) {
+    indexActiveImage.value++;
+  } else if (increment === -1 && indexActiveImage.value > 0) {
+    indexActiveImage.value--;
+  }
+
+  const elementContainer = pictureListContainer.value;
+  if (pictureListItem.value) {
+    const elementImage = pictureListItem.value[0]; // Now you can access `[0]` without error
+    elementContainer?.scrollBy({
+      left: (2 + elementImage?.offsetWidth) * increment,
+      behavior: 'smooth',
+    });
+  }
+};
+
+useSeoMeta({
+	title: `${dataProducts.value.name} - Mahardika store`,
+	description: dataProducts.value.description,
+});
+
+const calculatePrice = computed(() => quantity.value * (dataProducts.value.price || 0));
 </script>
 
 <style lang="scss">
