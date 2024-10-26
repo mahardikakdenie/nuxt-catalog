@@ -29,7 +29,7 @@
 				<h2 class="mt-4 text-xl font-bold flex gap-4">
 					List Product
 					<div>
-						<nuxt-link to="/" class="text-sm hover:underline hover:text-purple-500">
+						<nuxt-link to="/product/explore" class="text-sm hover:underline hover:text-purple-500">
 							<small>Explore More</small>
 						</nuxt-link>
 					</div>
