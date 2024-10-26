@@ -54,13 +54,13 @@
 
 				<!-- Details -->
 				<div class="p-4">
-					<h3 class="font-bold">{{ dataProducts.name }}</h3>
+					<h3 class="font-bold">{{ dataProducts?.name }}</h3>
 					<div class="flex items-center">
 						<img
-							v-for="i in dataProducts.rating"
+							v-for="i in dataProducts?.rating"
 							src="@/assets/image/star.svg"
 							alt="" />
-						<small>({{ dataProducts.rating }})</small>
+						<small>({{ dataProducts?.rating }})</small>
 					</div>
 
 					<hr class="mt-4" />
@@ -81,7 +81,7 @@
 
 					<div class="py-4">
 						<span>Deskripsi</span>
-						<div v-html="dataProducts.description" class="text-sm" />
+						<div v-html="dataProducts?.description" class="text-sm" />
 						<div class="mt-3 flex items-center gap-3">
 							<span>Share</span>
 							<img src="@/assets/image/linkedin.svg" width="30" alt="" />
@@ -207,7 +207,7 @@ onMounted(() => {
 	if (process.client) {
 		const containerWidth = 300; // Adjust based on actual container width
 		maxPosition.value = -(
-			dataProducts.value.pictures.length * itemWidth -
+			dataProducts?.value?.pictures?.length * itemWidth -
 			containerWidth
 		);
 
@@ -230,14 +230,14 @@ const onMouseLeave = () => {
 const slide = (increment: number) => {
 	if (
 		increment === 1 &&
-		dataProducts.value.pictures?.length - 1 > indexActiveImage.value
+		dataProducts?.value?.pictures?.length - 1 > indexActiveImage.value
 	) {
 		indexActiveImage.value++;
-	} else if (increment === -1 && indexActiveImage.value > 0) {
+	} else if (increment === -1 && indexActiveImage?.value > 0) {
 		indexActiveImage.value--;
 	}
 
-	const elementContainer = pictureListContainer.value;
+	const elementContainer = pictureListContainer?.value;
 	if (pictureListItem.value) {
 		const elementImage = pictureListItem.value[0]; // Now you can access `[0]` without error
 		elementContainer?.scrollBy({
@@ -251,23 +251,23 @@ const title = computed(() => dataProducts.value?.name ?? 'Product Tidak ada');
 
 useSeoMeta({
 	title: `${title.value} - Mahardika store`,
-	description: dataProducts.value.description,
+	description: dataProducts?.value?.description,
 });
 
-const isProductNotFound = computed(() => JSON.stringify(dataProducts.value) === '{}');
+const isProductNotFound = computed(() => JSON.stringify(dataProducts?.value) === '{}');
 
 const calculatePrice = computed(
-	() => quantity.value * (dataProducts.value.price || 0)
+	() => quantity.value * (dataProducts?.value?.price || 0)
 );
 
 const isSubmit = ref<boolean>(false);
 const addToCart = () => {
 	isSubmit.value = true;
-	const index = cartItems.value?.findIndex((curr: any) => curr?.id === dataProducts.value.id);
+	const index = cartItems.value?.findIndex((curr: any) => curr?.id === dataProducts?.value?.id);
 	if (index !== -1) {
-		cartItems.value[index].quantity = cartItems.value[index].quantity + quantity.value;
+		cartItems.value[index].quantity = cartItems?.value?.[index]?.quantity + quantity?.value;
 	} else {
-		cartItems.value.push({...dataProducts.value, quantity: quantity.value});
+		cartItems.value.push({...dataProducts?.value, quantity: quantity?.value});
 	}
 
 	setTimeout(() => {
