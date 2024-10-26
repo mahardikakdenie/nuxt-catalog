@@ -1,7 +1,9 @@
 <template>
 	<div class="mx-auto">
 		<Navbar />
-		<nuxt-page />
+		<div class="">
+            <nuxt-page />
+        </div>
 		<Footer />
 	</div>
 </template>

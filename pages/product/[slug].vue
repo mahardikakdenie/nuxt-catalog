@@ -1,41 +1,46 @@
 <template>
-	<div class="px-20 py-10 bg-gray-100 relative">
-		<div v-if="dataProducts" class="p-7 bg-white rounded-lg">
-			<div class="grid grid-cols-3">
-				<div class="p-5 gap-3">
-					<!-- <div class="col-span-1 ml-2">
-					</div> -->
-					<div class="">
+	<div class="px-20 py-10 bg-gray-100 h-auto">
+		<div v-if="dataProducts" class="px-20 bg-white rounded-lg relative">
+			<div class="grid grid-cols-1 sm:grid-cols-3 gap-3 py-10">
+				<!-- Image -->
+				<div class="relative w-full min-w-[300px]">
+					<div class="p-4 relative sm:sticky top-20 w-full min-w-[300px]">
 						<div class="flex justify-center items-center">
 							<img
 								:src="dataProducts.pictures[indexActiveImage]"
 								class="border rounded-md image-loader"
 								alt="" />
 						</div>
-						<div class="relative w-full" @mouseenter="onMouseChev" @mouseleave="onMouseLeave">
+						<div
+							class="relative w-full"
+							@mouseenter="onMouseChev"
+							@mouseleave="onMouseLeave">
 							<!-- Tombol geser ke kiri -->
 							<button
 								v-if="isButtonVisible"
-								class="absolute left-0 z-10 top-6 rounded-full bg-gray-200 p-2 opacity-75" @click="slide(-1)">
+								class="absolute left-0 z-10 top-6 rounded-full bg-gray-200 p-2 opacity-75"
+								@click="slide(-1)">
 								◀
 							</button>
 							<!-- Daftar gambar -->
 							<ul
-								class="flex gap-2 transition-transform duration-300 overflow-x-auto" style="scrollbar-width: none;" ref="pictureListContainer">
+								class="flex gap-2 transition-transform duration-300 overflow-x-auto"
+								style="scrollbar-width: none"
+								ref="pictureListContainer">
 								<li
 									v-for="(
 										picture, i
 									) in dataProducts.pictures"
 									:key="i"
 									class="sm:w-[80px] w-[100px] min-w-[80px]"
-									ref="pictureListItem"
-								>
+									ref="pictureListItem">
 									<img
 										:src="picture"
 										width="100%"
 										class="rounded-lg border mt-2 hover:border-purple-600 cursor-pointer"
 										:class="{
-											'border-purple-500 border-2': i === indexActiveImage,
+											'border-purple-500 border-2':
+												i === indexActiveImage,
 										}"
 										@click="indexActiveImage = i"
 										alt="" />
@@ -45,13 +50,14 @@
 							<button
 								v-if="isButtonVisible"
 								class="absolute right-0 top-6 z-10 bg-gray-200 p-2 rounded-full opacity-75"
-								@click="slide(1)"
-							>
+								@click="slide(1)">
 								▶
 							</button>
 						</div>
 					</div>
 				</div>
+
+				<!-- Details -->
 				<div class="p-4">
 					<div>
 						<h3 class="font-bold">
@@ -118,79 +124,78 @@
 						</div>
 					</div>
 				</div>
-				<div>
-					<div class="border p-2 rounded-lg">
-						<div class="p-4">
-							<div>
-								<span class="font-bold">Summary</span>
-							</div>
-							<hr class="my-2" />
-							<div class="mt-5 flex justify-between">
-								<div>
-									<small>kuantitas</small>
-								</div>
-								<div class="flex items-center gap-3">
-									<button @click="quantity--">-</button>
-									<input
-										:value="quantity"
-										type="number"
-										class="border rounded-lg text-center text-xs py-1 bg-gray-200"
-										disabled />
-									<button @click="quantity++">+</button>
-								</div>
-							</div>
-							<div class="flex justify-between mt-2">
-								<div>
-									<small>Harga :</small>
-								</div>
-								<div>
-									<small> Rp{{ calculatePrice }} </small>
-								</div>
-							</div>
-							<div class="flex justify-between mt-2">
-								<div>
-									<small>
-										Stock
-									</small>
-								</div>
-								<div>
-									<small>
-										{{ dataProducts.stock?.quantity }}
-									</small>
-								</div>
-							</div>
-							<hr class="mt-7">
-							<div class="mt-7">
-								<button
-									class="border w-full py-2 rounded-lg bg-purple-600 text-white font-bold text-sm">
-									Masukan Keranjang
-								</button>
-							</div>
 
-							<div class="mt-7">
-								<div class="flex justify-center w-full gap-5">
-									<button class="flex gap-2">
-										<img
-											src="@/assets/image/chat.svg"
-											width="20"
-											alt="" />
-										<small>Chat</small>
-									</button>
-									<button class="flex gap-2">
-										<img
-											src="@/assets/image/heart.svg"
-											width="20"
-											alt="" />
-										<small>Wishlist</small>
-									</button>
-									<button class="flex gap-2">
-										<img
-											src="@/assets/image/share.svg"
-											width="20"
-											alt="" />
-										<small>Share</small>
-									</button>
-								</div>
+				<!-- Quantity Box -->
+				<div class="relative mt-4 top-0 w-[320px] min-w-[320px] max-w-[320px]">
+					<div
+						class="p-4 sticky top-[80px] border rounded-lg bg-white shadow-sm">
+						<div>
+							<span class="font-bold">Summary</span>
+						</div>
+						<hr class="my-2" />
+						<div class="mt-5 flex justify-between">
+							<div>
+								<small>kuantitas</small>
+							</div>
+							<div class="flex items-center gap-3">
+								<button @click="quantity--">-</button>
+								<input
+									:value="quantity"
+									type="number"
+									class="border rounded-lg text-center text-xs py-1 bg-gray-200"
+									disabled />
+								<button @click="quantity++">+</button>
+							</div>
+						</div>
+						<div class="flex justify-between mt-2">
+							<div>
+								<small>Harga :</small>
+							</div>
+							<div>
+								<small> Rp{{ calculatePrice }} </small>
+							</div>
+						</div>
+						<div class="flex justify-between mt-2">
+							<div>
+								<small> Stock </small>
+							</div>
+							<div>
+								<small>
+									{{ dataProducts.stock?.quantity }}
+								</small>
+							</div>
+						</div>
+						<hr class="mt-7" />
+						<div class="mt-7">
+							<button
+								class="border w-full py-2 rounded-lg bg-purple-600 text-white font-bold text-sm">
+								Masukan Keranjang
+							</button>
+						</div>
+
+						<div class="mt-7">
+							<div class="flex justify-center w-full gap-5">
+								<button class="flex gap-2">
+									<img
+										src="@/assets/image/chat.svg"
+										width="20"
+										alt="" />
+									<small>Chat</small>
+								</button>
+								<button class="flex gap-2">
+									<img
+										src="@/assets/image/heart.svg"
+										width="20"
+										alt="" />
+									<small>Wishlist</small>
+								</button>
+								<button class="flex gap-2">
+									<img
+										src="@/assets/image/share.svg"
+										width="20"
+										alt="" />
+									<small>Share</small>
+								</button>
 							</div>
 						</div>
 					</div>
@@ -222,7 +227,7 @@ interface ProductInterface {
 	stock?: {
 		enabled: boolean;
 		quantity: boolean;
-	}
+	};
 	pictures?: string[];
 }
 const {
@@ -254,18 +259,18 @@ const pictureListItem = ref<HTMLElement | any>(null);
 
 // Calculate max scroll position when component is mounted
 onMounted(() => {
-  if (process.client) {
-    const containerWidth = 300; // Adjust based on actual container width
-    maxPosition.value = -(
-      dataProducts.value.pictures.length * itemWidth -
-      containerWidth
-    );
+	if (process.client) {
+		const containerWidth = 300; // Adjust based on actual container width
+		maxPosition.value = -(
+			dataProducts.value.pictures.length * itemWidth -
+			containerWidth
+		);
 
-    if (pictureListContainer.value) {
-      // Access the element properties, e.g., scrollWidth
-      console.log(pictureListContainer.value.scrollWidth);
-    }
-  }
+		if (pictureListContainer.value) {
+			// Access the element properties, e.g., scrollWidth
+			console.log(pictureListContainer.value.scrollWidth);
+		}
+	}
 });
 
 const indexActiveImage = ref<number>(0);
@@ -276,26 +281,25 @@ const onMouseChev = () => {
 
 const onMouseLeave = () => {
 	isButtonVisible.value = false;
-
 };
 const slide = (increment: number) => {
-  if (
-    increment === 1 &&
-    (dataProducts.value.pictures?.length - 1) > indexActiveImage.value
-  ) {
-    indexActiveImage.value++;
-  } else if (increment === -1 && indexActiveImage.value > 0) {
-    indexActiveImage.value--;
-  }
+	if (
+		increment === 1 &&
+		dataProducts.value.pictures?.length - 1 > indexActiveImage.value
+	) {
+		indexActiveImage.value++;
+	} else if (increment === -1 && indexActiveImage.value > 0) {
+		indexActiveImage.value--;
+	}
 
-  const elementContainer = pictureListContainer.value;
-  if (pictureListItem.value) {
-    const elementImage = pictureListItem.value[0]; // Now you can access `[0]` without error
-    elementContainer?.scrollBy({
-      left: (2 + elementImage?.offsetWidth) * increment,
-      behavior: 'smooth',
-    });
-  }
+	const elementContainer = pictureListContainer.value;
+	if (pictureListItem.value) {
+		const elementImage = pictureListItem.value[0]; // Now you can access `[0]` without error
+		elementContainer?.scrollBy({
+			left: (2 + elementImage?.offsetWidth) * increment,
+			behavior: 'smooth',
+		});
+	}
 };
 
 useSeoMeta({
@@ -303,7 +307,9 @@ useSeoMeta({
 	description: dataProducts.value.description,
 });
 
-const calculatePrice = computed(() => quantity.value * (dataProducts.value.price || 0));
+const calculatePrice = computed(
+	() => quantity.value * (dataProducts.value.price || 0)
+);
 </script>
 
 <style lang="scss">
