@@ -1,11 +1,11 @@
 <template>
 	<header class="sticky top-0 z-50 w-full bg-white shadow-sm">
-		<nav class="container mx-auto flex items-center justify-between p-4 lg:p-8">
+		<nav class="mx-auto sm:flex block items-center justify-between p-4 lg:p-8">
 			<div class="flex items-center gap-5">
 				<Logo />
 			</div>
 			<!-- Search bar -->
-			<div class="w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-2xl relative">
+			<div class="w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-2xl relative sm:mt-0 mt-2">
 				<input
 					type="text"
 					placeholder="Search Product..."
@@ -16,9 +16,9 @@
 				</div>
 			</div>
 			<!-- Cart button -->
-			<div class="flex justify-end">
+			<div class="flex justify-end mt-2 sm:mt-0">
 				<button
-					class="flex items-center border border-purple-500 bg-purple-100 hover:bg-purple-200 px-4 py-2 rounded-md"
+					class="flex w-full justify-center items-center border border-purple-500 bg-purple-100 hover:bg-purple-200 px-4 py-2 rounded-md"
 					@click="isCartVisible = true"
 				>
 					<img src="@/assets/image/cart.svg" width="15" alt="Cart icon">

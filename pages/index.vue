@@ -1,80 +1,54 @@
 <template>
-	<div class="px-10 py-3 mt-4">
+	<div class="px-4 py-3 mt-4 md:px-10">
 		<div v-if="loading" class="image-loader"></div>
 		<div v-else>
-			<div class="grid grid-cols-3 gap-3">
-			<div
-				class="col-span-2 p-4 rounded-lg cursor-pointer relative banner">
-				<div class="absolute opacity-0 top-[50%] rounded-full chev-left">
-					<div class="border-0" @click="previous">
-						<img src="@/assets/image/chev-left.svg" class="image-loader" width="40" alt="" />
+			<!-- Banner and Carousel Section -->
+			<div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+				<div class="sm:col-span-2 p-4 rounded-lg cursor-pointer relative banner">
+					<div class="absolute opacity-0 top-1/2 transform -translate-y-1/2 rounded-full chev-left">
+						<div @click="previous" class="border-0">
+							<img src="@/assets/image/chev-left.svg" class="image-loader w-8 h-8" alt="Previous" />
+						</div>
+					</div>
+					<img :src="currentBanner.pic" class="rounded-lg w-full h-auto object-cover" alt="Banner Image" />
+					<div class="absolute top-1/2 right-4 opacity-0 rounded-full chev-right">
+						<div @click="next">
+							<img src="@/assets/image/chev-right.svg" class="w-8 h-8" alt="Next" />
+						</div>
 					</div>
 				</div>
-				<img
-					:src="currentBanner.pic"
-					class="rounded-lg"
-					alt="" />
-				<div class="absolute top-[50%] rounded-full right-4 opacity-0 chev-right">
-					<div @click="next">
-						<img
-							src="@/assets/image/chev-right.svg"
-							width="40"
-							alt="" 
-						/>
+				<!-- Thumbnails -->
+				<div class="flex sm:block gap-2 sm:gap-0:">
+					<div v-for="(child, index) in currentBanner.child" :key="index" class="p-0 sm:p-3 cursor-pointer">
+						<img :src="child" class="rounded-lg w-full object-cover" alt="Thumbnail" />
 					</div>
 				</div>
 			</div>
+			<!-- Product List Section -->
 			<div>
-				<div v-for="(child, index) in currentBanner.child" :key="index" class="p-3 cursor-pointer">
-					<img
-						:src="child"
-						class="rounded-lg image-loader"
-						alt="" />
-				</div>
-			</div>
-		</div>
-
-		<!--  -->
-		<div>
-			<div class="mt-4 font-bold">
-				<span class="text-xl"> List Product </span>
-			</div>
-			<div class="w-full overflow-hidden pb-6 pt-1">
-				<ul class="p-4 animate-carousel flex gap-4">
-					<li
-						v-for="(product, i) in dataProducts"
-						:key="i"
-						class="relative aspect-square w-1/6 max-w-[475px] flex-none">
-						<nuxt-link :to="`/product/${product.id}`" class="w-[400px] h-[200px] relative">
-							<div
-								class="group flex h-full w-full items-center justify-center overflow-hidden rounded-lg border bg-white hover:border-blue-600 dark:bg-black relative border-neutral-200 dark:border-neutral-800">
-								<img
-									:src="product.pictures[0]"
-									class="relative h-full w-full object-contain transition duration-300 ease-in-out group-hover:scale-105 image-loader"
-									alt="" />
+				<h2 class="mt-4 text-xl font-bold">List Product</h2>
+				<div class="w-full overflow-hidden pb-6 pt-1">
+					<ul class="p-4 animate-carousel flex gap-4">
+						<li
+							v-for="(product, i) in dataProducts"
+							:key="i"
+							class="relative w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/6 flex-none">
+							<nuxt-link :to="`/product/${product.id}`" class="block w-full h-48 sm:h-64 lg:h-72 relative">
 								<div
-									class="absolute bottom-4 flex justify-center w-full">
-									<div
-										class="flex items-center rounded-full border bg-white/70 p-1 text-xs font-semibold text-black backdrop-blur-md dark:border-neutral-800 dark:bg-black/70 dark:text-white">
-										<h3
-											class="mr-4 text-[10px] line-clamp-2 flex-grow pl-2 leading-none tracking-tight">
-											{{ product?.name }}
-										</h3>
-										<p
-											class="flex-none rounded-full text-[8px] bg-blue-600 px-2 text-white">
-											$20.00<span
-												class="ml-1 inline lg:inline"
-												>USD</span
-											>
-										</p>
+									class="group flex h-full w-full items-center justify-center overflow-hidden rounded-lg border border-neutral-200 bg-white dark:bg-black hover:border-blue-600 dark:border-neutral-800">
+									<img :src="product.pictures[0]" class="h-full w-full object-contain transition-transform duration-300 ease-in-out group-hover:scale-105" alt="Product Image" />
+									<div class="absolute bottom-4 w-full flex justify-center">
+										<div class="flex items-center rounded-full border bg-white/70 p-1 text-xs font-semibold text-black backdrop-blur-md dark:border-neutral-800 dark:bg-black/70 dark:text-white">
+											<h3 class="mr-4 text-[10px] line-clamp-2 flex-grow pl-2">{{ product?.name }}</h3>
+											<p class="flex-none rounded-full bg-blue-600 px-2 text-white text-[8px]"> $20.00 USD</p>
+										</div>
 									</div>
 								</div>
-							</div>
-						</nuxt-link>
-					</li>
-				</ul>
+							</nuxt-link>
+						</li>
+					</ul>
+				</div>
 			</div>
-		</div>
 		</div>
 	</div>
 </template>
@@ -169,21 +143,16 @@ watchEffect(() => {
 });
 </script>
 
-<style lang="scss" scoped>
-
+<style scoped>
 .banner {
 	&:hover {
-		.chev-left {
-			@apply opacity-100;
-		}
-
+		.chev-left,
 		.chev-right {
 			@apply opacity-100;
-		}	
+		}
 	}
 }
 
-/* Create the marquee animation */
 @keyframes marquee {
 	0% {
 		transform: translateX(0);
@@ -193,7 +162,6 @@ watchEffect(() => {
 	}
 }
 
-/* Apply the marquee animation to an element */
 .animate-carousel {
 	animation: marquee 60s linear infinite;
 }
