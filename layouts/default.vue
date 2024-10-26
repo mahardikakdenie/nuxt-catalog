@@ -38,6 +38,41 @@ body {
 	}
 }
 
+.is-loading {
+	position: relative;
+	color: transparent !important;
+	pointer-events: none;
+
+	&:after {
+		content: '';
+		display: block;
+		width: 1em;
+		height: 1em;
+		border: 2px solid white;
+		border-radius: 50%;
+		border-right-color: transparent;
+		border-top-color: transparent;
+		-webkit-animation: spinAround 500ms infinite linear;
+		animation: spinAround 500ms infinite linear;
+	}
+
+	&.large:after {
+		width: 2em;
+		height: 2em;
+		border-width: 3px;
+	}
+
+	&.dark:after {
+		border-left-color: #555;
+		border-bottom-color: #555;
+	}
+}
+
+.app-loader {
+	height: 4rem;
+}
+
+
 // Keyframes for the spinning effect
 @keyframes spin {
 	0% {
@@ -46,6 +81,17 @@ body {
 
 	100% {
 		transform: translate(-50%, -50%) rotate(360deg); // Rotate a full circle
+	}
+}
+
+@keyframes spinAround {
+	from {
+		-webkit-transform: rotate(0deg);
+		transform: rotate(0deg);
+	}
+	to {
+		-webkit-transform: rotate(359deg);
+		transform: rotate(359deg);
 	}
 }
 </style>

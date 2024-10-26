@@ -64,7 +64,7 @@
 
 					<hr class="mt-4" />
 
-					<div v-if="dataProducts.type === 'variant'" class="py-4">
+					<!-- <div v-if="dataProducts.type === 'variant'" class="py-4">
 						<span class="text-sm">Pilih Variant</span>
 						<div class="mt-2 grid grid-cols-2 sm:grid-cols-4 gap-2">
 							<div class="border border-purple-500 p-1 bg-purple-100 text-purple-500 text-center rounded-xl">
@@ -74,7 +74,7 @@
 								<span>Grade B</span>
 							</div>
 						</div>
-					</div>
+					</div> -->
 
 					<hr />
 
@@ -116,7 +116,7 @@
 						</div>
 						<hr class="mt-7" />
 						<div class="mt-7">
-							<button class="border w-full py-2 rounded-lg bg-purple-600 text-white font-bold text-sm">Masukan Keranjang</button>
+							<button :class="{'is-loading flex': isSubmit}" class="border w-full py-2 rounded-lg bg-purple-600 text-white font-bold text-sm" @click="addToCart">Masukan Keranjang</button>
 						</div>
 						<div class="mt-7">
 							<div class="flex justify-center w-full gap-5">
@@ -143,6 +143,9 @@
 </template>
 
 <script setup lang="ts">
+import { useCartItem } from '@/store/cart';
+
+const cartItems = useCartItem();
 const quantity = ref<number>(1);
 const route = useRoute();
 
@@ -246,6 +249,21 @@ useSeoMeta({
 const calculatePrice = computed(
 	() => quantity.value * (dataProducts.value.price || 0)
 );
+
+const isSubmit = ref<boolean>(false);
+const addToCart = () => {
+	isSubmit.value = true;
+	const index = cartItems.value?.findIndex((curr: any) => curr?.id === dataProducts.value.id);
+	if (index !== -1) {
+		cartItems.value[index].quantity = cartItems.value[index].quantity + quantity.value;
+	} else {
+		cartItems.value.push({...dataProducts.value, quantity: quantity.value});
+	}
+
+	setTimeout(() => {
+		isSubmit.value = false;
+	}, 3000);
+};
 </script>
 
 <style lang="scss">

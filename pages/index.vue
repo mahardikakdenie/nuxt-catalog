@@ -26,8 +26,15 @@
 			</div>
 			<!-- Product List Section -->
 			<div>
-				<h2 class="mt-4 text-xl font-bold">List Product</h2>
-				<div class="w-full overflow-hidden pb-6 pt-1">
+				<h2 class="mt-4 text-xl font-bold flex gap-4">
+					List Product
+					<div>
+						<nuxt-link to="/" class="text-sm hover:underline hover:text-purple-500">
+							<small>Explore More</small>
+						</nuxt-link>
+					</div>
+				</h2>
+				<div class="w-full overflow-x-scroll pb-6 pt-1" style="scrollbar-width: none;">
 					<ul class="p-4 animate-carousel flex gap-4">
 						<li
 							v-for="(product, i) in dataProducts"
@@ -40,7 +47,7 @@
 									<div class="absolute bottom-4 w-full flex justify-center">
 										<div class="flex items-center rounded-full border bg-white/70 p-1 text-xs font-semibold text-black backdrop-blur-md dark:border-neutral-800 dark:bg-black/70 dark:text-white">
 											<h3 class="mr-4 text-[10px] line-clamp-2 flex-grow pl-2">{{ product?.name }}</h3>
-											<p class="flex-none rounded-full bg-blue-600 px-2 text-white text-[8px]"> $20.00 USD</p>
+											<p class="flex-none rounded-full bg-blue-600 px-2 text-white text-[8px]"> Rp{{ product.price }}</p>
 										</div>
 									</div>
 								</div>
@@ -163,6 +170,7 @@ watchEffect(() => {
 }
 
 .animate-carousel {
+	scrollbar-width: none;
 	animation: marquee 60s linear infinite;
 }
 </style>
