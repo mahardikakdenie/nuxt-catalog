@@ -90,7 +90,7 @@
 				</div>
 
 				<!-- Quantity Box -->
-				<div class="relative mt-4 w-full sm:max-w-[320px]">
+				<div class="relative mt-4 w-full sm:max-w-[320px] mx-auto">
 					<div class="p-4 sticky top-[80px] border rounded-lg bg-white shadow-sm">
 						<span class="font-bold">Summary</span>
 						<hr class="my-2" />
