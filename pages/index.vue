@@ -61,6 +61,11 @@
 </template>
 
 <script setup lang="ts">
+
+useSeoMeta({
+	title: "Mahardika Stote",
+})
+
 interface ProductInterface {
 	id: number,
 	price: string;
